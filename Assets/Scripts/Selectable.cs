@@ -1,17 +1,21 @@
-using System.Reflection;
 using UnityEngine;
 
 public class Selectable : MonoBehaviour
 {
     [SerializeField] private Painter _painter;
+    private Renderer _renderer;
 
-   public void Select()
-   {
-        GetComponent<Renderer>().material.color = Color.yellow;
-   }
+    private void Awake()
+    {
+        _renderer = GetComponent<Renderer>();
+    }
+    public void Select()
+    {
+        _renderer.material.color = Color.yellow;
+    }
 
     public void Deselect()
     {
-        GetComponent<Renderer>().material.color = _painter.Color;
+        _renderer.material.color = _painter.Color;
     }
 }
