@@ -7,6 +7,8 @@ public class CubeFactory : MonoBehaviour
     [SerializeField] private List<Transform> _spawnPoints;
     [SerializeField] private int _minSpawnAmount = 2;
     [SerializeField] private int _maxSpawnAmount = 6;
+    [SerializeField] private float _explosiveForceFactor = 1.5f;
+    [SerializeField] private float _explosiveRadiusFactor = 1.5f;
 
     private void Start()
     {
@@ -16,7 +18,7 @@ public class CubeFactory : MonoBehaviour
         }
     }
     
-    public void Create(Cube parentCube,  out List<Cube> cubes)
+    public void Create(Cube parentCube)
     {
         int reduceValue = 2;
         int spawnAmount = Random.Range(_minSpawnAmount, _maxSpawnAmount + 1);
@@ -34,9 +36,9 @@ public class CubeFactory : MonoBehaviour
             Cube cube = Instantiate(_spawnObjectPrefab, parentCube.transform.position + randomOffset, Quaternion.identity);
             cube.transform.localScale = parentCube.transform.localScale / reduceValue;
             cube.SetSeparationChance(parentCube.SeparationChance / reduceValue);
+            cube.SetExplosionForce(parentCube.ExplosionForce * _explosiveForceFactor);
+            cube.SetExplosionRadius(parentCube.ExplosionRadius * _explosiveRadiusFactor);
             createdCubes.Add(cube);
         }
-
-        cubes = createdCubes;
     }
 }

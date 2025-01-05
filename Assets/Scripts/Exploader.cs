@@ -3,20 +3,29 @@ using UnityEngine;
 
 public class Exploader : MonoBehaviour
 {
-    [SerializeField] private float _explosionForce = 10f;
     [SerializeField] private ParticleSystem _effect;
 
-    public void Explode(Cube parentCube, List<Cube> createdCubes)
+    public void Explode(Cube parentCube)
     {
-        foreach (Cube cube in createdCubes)
+        foreach (Rigidbody explodbleCubes in GetExplodbleCubes( parentCube))
         {
-            Rigidbody rigidbody = cube.GetComponent<Rigidbody>();
+            explodbleCubes.AddExplosionForce(parentCube.ExplosionForce, parentCube.transform.position, parentCube.ExplosionRadius);
+        }
+    }
 
-            if (rigidbody != null)
+    private List<Rigidbody> GetExplodbleCubes(Cube parentCube)
+    {
+        Collider[] hits = Physics.OverlapSphere(parentCube.transform.position, parentCube.ExplosionRadius);
+        List<Rigidbody> cubes = new();
+        
+        foreach(Collider hit in hits)
+        {
+            if (hit.attachedRigidbody != null)
             {
-                Vector3 explosionDirection = (cube.transform.position - parentCube.transform.position).normalized;
-                rigidbody.AddForce(explosionDirection * _explosionForce, ForceMode.Impulse);
+                cubes.Add(hit.attachedRigidbody);
             }
         }
+
+        return cubes;
     }
 }

@@ -32,8 +32,12 @@ public class ClickHandler : MonoBehaviour
                 {
                     if (cube.SeparationChance > Random.Range(_minChance, _maxChance + 1))
                     {
-                        _spawner.Create(cube, out List<Cube> cubes);
-                        _exploader.Explode(cube, cubes);
+                        _spawner.Create(cube);
+                        
+                    }
+                    else
+                    {
+                        _exploader.Explode(cube);
                     }
 
                     Destroy(cube.gameObject);
