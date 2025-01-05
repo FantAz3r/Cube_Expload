@@ -22,7 +22,6 @@ public class ClickHandler : MonoBehaviour
 
     private void Update()
     {
-        List<Cube> createdCubes = new List<Cube>();
         Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~_ignoreLayer))
@@ -33,10 +32,11 @@ public class ClickHandler : MonoBehaviour
                 {
                     if (cube.SeparationChance > Random.Range(_minChance, _maxChance + 1))
                     {
-                        createdCubes = _spawner.Create(cube);
-                        Destroy(cube.gameObject);
-                        _exploader.Explode(cube, createdCubes);
+                        _spawner.Create(cube, out List<Cube> cubes);
+                        _exploader.Explode(cube, cubes);
                     }
+
+                    Destroy(cube.gameObject);
                 }
             }
 

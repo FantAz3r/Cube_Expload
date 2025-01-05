@@ -16,11 +16,11 @@ public class CubeFactory : MonoBehaviour
         }
     }
     
-    public List<Cube> Create(Cube parentCube)
+    public void Create(Cube parentCube,  out List<Cube> cubes)
     {
         int reduceValue = 2;
         int spawnAmount = Random.Range(_minSpawnAmount, _maxSpawnAmount + 1);
-        
+
         List<Cube> createdCubes = new List<Cube>();
 
         for (int i = 0; i < spawnAmount; i++)
@@ -37,6 +37,6 @@ public class CubeFactory : MonoBehaviour
             createdCubes.Add(cube);
         }
 
-        return createdCubes;
+        cubes = createdCubes;
     }
 }
